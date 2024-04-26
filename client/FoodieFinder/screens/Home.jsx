@@ -1,23 +1,22 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { useCallback, useEffect, useState, useContext } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Modal,
-  Linking,
-  ActivityIndicator,
-} from "react-native";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import * as SecureStore from "expo-secure-store";
 import moment from "moment";
+import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Linking,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../context/auth";
-import { AntDesign } from "@expo/vector-icons";
 
 export default function Home() {
   const navigator = useNavigation();
@@ -182,7 +181,7 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       handleGetPosts();
-    }, []),
+    }, [])
   );
 
   return (
@@ -193,7 +192,8 @@ export default function Home() {
             style={[
               styles.inputContainer,
               { marginBottom: isInputFocused ? 1 : 1 },
-            ]}>
+            ]}
+          >
             <TextInput
               key={textInputKey}
               placeholder="What are u craving for?"
@@ -212,7 +212,8 @@ export default function Home() {
             ) : (
               <TouchableOpacity
                 style={styles.submitButton}
-                onPress={handleSubmit}>
+                onPress={handleSubmit}
+              >
                 <Text style={styles.submitButtonText}>→</Text>
               </TouchableOpacity>
             )}
@@ -221,15 +222,14 @@ export default function Home() {
             visible={isModalVisible && !isLoading}
             animationType="slide"
             transparent={true}
-            onRequestClose={closeModal}>
+            onRequestClose={closeModal}
+          >
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                   {datas &&
                     datas?.data?.places?.map((item, index) => (
-                      <View
-                        style={styles.containerCardModal}
-                        key={index}>
+                      <View style={styles.containerCardModal} key={index}>
                         <View style={styles.headerModal}>
                           {item &&
                             item.photos &&
@@ -237,7 +237,7 @@ export default function Home() {
                             item.photos[0].name && (
                               <Image
                                 source={{
-                                  uri: `https://places.googleapis.com/v1/${item?.photos[0]?.name}/media?key=AIzaSyD8hdZF3fs3AJ35R9Dc3gBk7IJ0ZeoGH9Q&maxWidthPx=360`,
+                                  uri: `https://places.googleapis.com/v1/${item?.photos[0]?.name}/media?key=${GOOGLE_MAPS_API_KEY}&maxWidthPx=360`,
                                 }}
                                 style={styles.avatarModal}
                               />
@@ -270,14 +270,15 @@ export default function Home() {
                           <TouchableOpacity
                             onPress={() => handleAddToFavorites(index)}
                             disabled={isAddedToFavorites.includes(
-                              item?.displayName?.text,
-                            )}>
+                              item?.displayName?.text
+                            )}
+                          >
                             <AntDesign
                               style={styles.favoriteButton}
                               size={25}
                               name={
                                 isAddedToFavorites.includes(
-                                  item?.displayName?.text,
+                                  item?.displayName?.text
                                 )
                                   ? "heart"
                                   : "hearto"
@@ -289,7 +290,8 @@ export default function Home() {
                     ))}
                   <TouchableOpacity
                     onPress={closeModal}
-                    style={styles.closeButtonContainer}>
+                    style={styles.closeButtonContainer}
+                  >
                     <Text style={styles.closeButton}>Close</Text>
                   </TouchableOpacity>
                 </View>
@@ -313,7 +315,8 @@ export default function Home() {
                   style={styles.header}
                   onPress={() =>
                     navigator.navigate("UserProfile", { id: item.authorId })
-                  }>
+                  }
+                >
                   <Image
                     source={{
                       uri: `https://source.unsplash.com/random/300x200?sig=${item.authorId}`,
